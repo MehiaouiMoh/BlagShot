@@ -1,18 +1,20 @@
 //
-//  LoginView.swift
+//  SignUpView.swift
 //  BlagShot
 //
 //  Created by admin on 26/09/2025.
 //
+
 import SwiftUI
 
-struct LoginView: View {
-    @Binding var content: LoginContent
+struct SignUpView: View {
+    @Binding var content: SignUpContent
     var onButtonTap: () -> Void
     var onRedirectTap: () -> Void
     
     var body: some View {
         ZStack {
+            
             
             VStack(spacing: 20) {
                 // Titre
@@ -61,12 +63,23 @@ struct LoginView: View {
                                     .stroke(Color.black, lineWidth: 1) // couleur et épaisseur de la bordure
                             )
                     }
+                    
+                    VStack(alignment: .leading) {
+                        Text(content.confirmPwdLabel)
+                            .font(.headline)
+                        SecureField("Confirm your password", text: $content.confirmPwd)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .stroke(Color.black, lineWidth: 1) // couleur et épaisseur de la bordure
+                            )
+                    }
                 }
                 .padding(.horizontal)
                 
                 // Bouton Sign In
                 Button(action: onButtonTap) {
-                    Text(content.signInButton)
+                    Text(content.signUpButton)
                         .frame(maxWidth: 150)
                         .padding()
                         .background(Color.yellow)
@@ -92,4 +105,6 @@ struct LoginView: View {
         }
     }
 }
+
+
 

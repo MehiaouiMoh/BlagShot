@@ -7,10 +7,11 @@
 import SwiftUI
 
 struct LoginController: View {
+    @State private var navigateToSignUp = false
     @State var content = LoginContent(
-        grandTitre: "Un humoriste dans l'âme",
+        grandTitre: "Un humoriste dans l'âme ?",
         accroche: "Prouve nous ça !",
-        imageName: "laughing_face",
+        imageName: "LoginImg",
         emailLabel: "Email",
         pwdLabel: "Password",
         signInButton: "Sign In",
@@ -21,13 +22,18 @@ struct LoginController: View {
     @State private var showError = false
     
     var body: some View {
-        LoginView(content: $content) {
-            if content.email.isEmpty || content.pwd.isEmpty {
-                showError = true
-            } else {
-                print("Connexion réussie avec \(content.email)")
-            }
-        }
+        LoginView(content: $content,
+                  onButtonTap: {
+                      if content.email.isEmpty || content.pwd.isEmpty {
+                          showError = true
+                      } else {
+                          print("Connexion réussie avec \(content.email)")
+                      }
+                  },
+                  onRedirectTap: {
+                      navigateToSignUp = true   // 🔑 déclenche la navigation vers SignUp
+                  }
+        )
         .alert(isPresented: $showError) {
             Alert(
                 title: Text("Erreur"),
@@ -35,6 +41,16 @@ struct LoginController: View {
                 dismissButton: .default(Text("OK"))
             )
         }
+        .navigationDestination(isPresented: $navigateToSignUp) {
+            SignUpController()
+        }
+
+    }
+}
+
+struct LoginController_Previews: PreviewProvider {
+    static var previews: some View {
+        LoginController()
     }
 }
 
