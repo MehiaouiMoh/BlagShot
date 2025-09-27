@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:BlagShot}/BackEnd",
+            "name": "Debug vapor (BackEnd)",
+            "program": "${workspaceFolder:BlagShot}/BackEnd/.build/debug/vapor",
+            "preLaunchTask": "swift: Build Debug vapor (BackEnd)"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:BlagShot}/BackEnd",
+            "name": "Release vapor (BackEnd)",
+            "program": "${workspaceFolder:BlagShot}/BackEnd/.build/release/vapor",
+            "preLaunchTask": "swift: Build Release vapor (BackEnd)"
+        }
+    ]
+}
