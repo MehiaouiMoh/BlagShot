@@ -56,39 +56,40 @@ struct CategorieView: View {
                 // CATEGORIES EN QUINCONCE
                 ZStack {
                     // Image centrale
-                    Circle()
-                        .strokeBorder(Color.black, lineWidth: 8)
-                        .background(Circle().fill(Color.blue.opacity(0.2)))
-                        .frame(width: 160, height: 160)
-                        .overlay(
-                            Image(content.imagePrincipale)
-                                .resizable()
-                                .scaledToFit()
-                                .clipShape(Circle())
-                                .padding(20)
-                        )
-                        .offset(x: 100) // décalé à droite
+                    if let uiImage = UIImage(named: content.imagePrincipale) {
+                        Image(uiImage: uiImage)
+                            .resizable()
+                            .scaledToFill()
+                            .clipShape(Circle())
+                            .padding(20)
+                            .frame(width: 190, height: 190)
+                            .offset(x: 100, y: 40)
+                    } else {
+                        Text("Image introuvable")
+                            .foregroundColor(.red)
+                    }
+                     // décalé à droite
                     
                     // Catégories en quinconce (manuelles)
                     if content.categories.count > 0 {
                         CategoryCircle(title: content.categories[0])
-                            .offset(x: -100, y: -180)
+                            .offset(x: -100, y: -150)
                     }
                     if content.categories.count > 1 {
                         CategoryCircle(title: content.categories[1])
-                            .offset(x: -50, y: -90)
+                            .offset(x: 30, y: -110)
                     }
                     if content.categories.count > 2 {
                         CategoryCircle(title: content.categories[2])
-                            .offset(x: -100, y: 0)
+                            .offset(x: -90, y: 0)
                     }
                     if content.categories.count > 3 {
                         CategoryCircle(title: content.categories[3])
-                            .offset(x: -50, y: 100)
+                            .offset(x: -20, y: 150)
                     }
                     if content.categories.count > 4 {
                         CategoryCircle(title: content.categories[4])
-                            .offset(x: -100, y: 200)
+                            .offset(x: 100, y: 220)
                     }
                 }
                 .frame(height: 400)
@@ -142,22 +143,26 @@ struct CategoryCircle: View {
     let title: String
     
     var body: some View {
-        VStack {
-            Circle()
-                .fill(Color.orange)
-                .frame(width: 90, height: 90)
-                .overlay(
-                    Image(systemName: "face.smiling") // Icône par défaut
-                        .resizable()
-                        .scaledToFit()
-                        .foregroundColor(.white)
-                        .frame(width: 40, height: 40)
-                )
-            
-            Text(title)
-                .font(.headline)
-                .foregroundColor(.black)
+        NavigationLink(destination: JokeGenerationView(category: title)) { // ← destination de ton API
+            VStack {
+                Circle()
+                    .fill(Color.orange)
+                    .frame(width: 90, height: 90)
+                    .overlay(
+                        Image(systemName: "face.smiling") // Icône par défaut
+                            .resizable()
+                            .scaledToFit()
+                            .foregroundColor(.white)
+                            .frame(width: 40, height: 40)
+                    )
+                
+                Text(title)
+                    .font(.headline)
+                    .foregroundColor(.black)
+            }
         }
+        .buttonStyle(PlainButtonStyle()) // Pour enlever le style de bouton par défaut
     }
 }
+
 

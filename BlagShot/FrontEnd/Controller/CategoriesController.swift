@@ -14,7 +14,7 @@ struct CategoriesController: View {
         imageCible: "target",
         titrePrincipal: "Choisis une catégorie !",
         titreSecondaire: "Catégories",
-        categories: ["Animaux","Communité","Ecole","Chuck Norris","RER B"],
+        categories: ["Animaux","Communauté","Ecole","Chuck Norris","RER B"],
         imagePrincipale: "choiceCategory",
         btnAcceuil: "house",
         btnAdd: "plus.circle",

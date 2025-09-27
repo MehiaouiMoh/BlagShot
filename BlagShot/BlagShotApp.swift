@@ -12,7 +12,8 @@ struct BlagShotApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationStack {
-                HomeController()
+                /*HomeController()*/
+                CategoriesController()
             }
         }
     }
