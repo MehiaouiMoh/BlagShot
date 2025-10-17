@@ -24,12 +24,6 @@ struct JokeGenerationView: View {
             Spacer()
             
             HStack(spacing: 40) {
-                Button(action: {
-                    // Ajouter aux favoris
-                }) {
-                    Image(systemName: viewModel.content.btnAddFavories)
-                        .font(.largeTitle)
-                }
                 
                 Button(action: {
                     Task {
