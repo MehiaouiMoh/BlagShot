@@ -8,6 +8,7 @@ struct SignUpContent {
     let grandTitre: String
     let accroche: String
     let imageName: String
+    let nameLabel: String
     let emailLabel: String
     let pwdLabel: String
     let confirmPwdLabel: String
@@ -16,6 +17,7 @@ struct SignUpContent {
     let linkRedirection: String
 
     // Champs modifiables (inputs)
+    var name: String = ""
     var email: String = ""
     var pwd: String = ""
     var confirmPwd: String = ""

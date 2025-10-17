@@ -23,7 +23,7 @@ class JokeGenerationViewModel: ObservableObject {
         let body: [String: Any]
         
         if let category = category {
-            route = "customs"
+            route = "custom"
             body = [
                 "category": category,
                 "type": "twopart",
@@ -38,12 +38,16 @@ class JokeGenerationViewModel: ObservableObject {
                     "explicit": true
                 ]
             ]
+            print("Route sélectionnée :", route, "| Catégorie :", category)
         } else {
             route = "random"
             body = [
                 "lang": "fr"
             ]
         }
+        
+        // 🔹 Debug : afficher la route sélectionnée
+            print("Route sélectionnée :", route)
         
         guard let url = URL(string: "http://localhost:8080/jokes/\(route)") else { return }
         

@@ -38,12 +38,11 @@ struct SignUpView: View {
                         .foregroundColor(.red)
                 }
                 
-                // Champs email + mot de passe
                 VStack(spacing: 10) {
                     VStack(alignment: .leading) {
-                        Text(content.emailLabel)
+                        Text(content.nameLabel)
                             .font(.headline)
-                        TextField("Enter your email...", text: $content.email)
+                        TextField("Votre nom...", text: $content.name)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .keyboardType(.emailAddress)
                             .autocapitalization(.none)
@@ -53,55 +52,71 @@ struct SignUpView: View {
                             )
                     }
                     
-                    VStack(alignment: .leading) {
-                        Text(content.pwdLabel)
-                            .font(.headline)
-                        SecureField("Enter your password...", text: $content.pwd)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.black, lineWidth: 1) // couleur et épaisseur de la bordure
-                            )
+                    // Champs email + mot de passe
+                    VStack(spacing: 10) {
+                        VStack(alignment: .leading) {
+                            Text(content.emailLabel)
+                                .font(.headline)
+                            TextField("Enter your email...", text: $content.email)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .keyboardType(.emailAddress)
+                                .autocapitalization(.none)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .stroke(Color.black, lineWidth: 1) // couleur et épaisseur de la bordure
+                                )
+                        }
+                        
+                        VStack(alignment: .leading) {
+                            Text(content.pwdLabel)
+                                .font(.headline)
+                            SecureField("Enter your password...", text: $content.pwd)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .stroke(Color.black, lineWidth: 1) // couleur et épaisseur de la bordure
+                                )
+                        }
+                        
+                        VStack(alignment: .leading) {
+                            Text(content.confirmPwdLabel)
+                                .font(.headline)
+                            SecureField("Confirm your password", text: $content.confirmPwd)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .stroke(Color.black, lineWidth: 1) // couleur et épaisseur de la bordure
+                                )
+                        }
+                    }
+                    .padding(.horizontal)
+                    
+                    // Bouton Sign In
+                    Button(action: onButtonTap) {
+                        Text(content.signUpButton)
+                            .frame(maxWidth: 150)
+                            .padding()
+                            .background(Color.yellow)
+                            .foregroundColor(.white)
+                            .cornerRadius(50)
+                            .padding(.horizontal, 20)
                     }
                     
-                    VStack(alignment: .leading) {
-                        Text(content.confirmPwdLabel)
-                            .font(.headline)
-                        SecureField("Confirm your password", text: $content.confirmPwd)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.black, lineWidth: 1) // couleur et épaisseur de la bordure
-                            )
-                    }
-                }
-                .padding(.horizontal)
-                
-                // Bouton Sign In
-                Button(action: onButtonTap) {
-                    Text(content.signUpButton)
-                        .frame(maxWidth: 150)
-                        .padding()
-                        .background(Color.yellow)
-                        .foregroundColor(.white)
-                        .cornerRadius(50)
-                        .padding(.horizontal, 20)
-                }
-                
-                // Redirection Sign Up
-                HStack {
-                    Text(content.titleRedirection)
-                        .font(.system(size:17, weight: .bold))
-                    Button(action: onRedirectTap) {
-                        Text(content.linkRedirection)
-                            .underline()
-                            .foregroundColor(.blue)
+                    // Redirection Sign Up
+                    HStack {
+                        Text(content.titleRedirection)
                             .font(.system(size:17, weight: .bold))
+                        Button(action: onRedirectTap) {
+                            Text(content.linkRedirection)
+                                .underline()
+                                .foregroundColor(.blue)
+                                .font(.system(size:17, weight: .bold))
+                        }
                     }
+                    .padding(.top, 10)
                 }
-                .padding(.top, 10)
+                .padding(.top, 50)
             }
-            .padding(.top, 50)
         }
     }
 }

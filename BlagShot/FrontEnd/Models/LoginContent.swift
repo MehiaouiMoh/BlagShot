@@ -5,6 +5,7 @@
 //  Created by admin on 26/09/2025.
 //
 struct LoginContent {
+    let skip: String
     let grandTitre: String
     let accroche: String
     let imageName: String
@@ -16,6 +17,6 @@ struct LoginContent {
 
     // Champs modifiables (inputs)
     var email: String = ""
-    var pwd: String = ""
+    var password: String = ""
 }
 

@@ -12,9 +12,10 @@ struct SignUpController: View {
         grandTitre: "On savait que t'avait de l'inspi !",
         accroche: "Fait nous kiffer !",
         imageName: "SignUpImg",
+        nameLabel: "Name",
         emailLabel: "Email",
         pwdLabel: "Password",
-        confirmPwdLabel: "Confirmer votre mot de passe",
+        confirmPwdLabel: "Confirm Password",
         signUpButton: "Sign Up",
         titleRedirection: "Déjà inscrit ? T'es un bon !",
         linkRedirection: "Connecte toi !"
@@ -22,6 +23,7 @@ struct SignUpController: View {
     
     @State private var showError = false
     @State private var navigateToLogin = false   // 🔑 contrôle la navigation
+    @State private var errorMessage = ""
     
     var body: some View {
         SignUpView(content: $content,
@@ -31,6 +33,9 @@ struct SignUpController: View {
                     } else if content.pwd != content.confirmPwd {
                         showError = true
                     } else {
+                        Task{
+                            await handleRegister()
+                        }
                         print("Inscription réussie avec \(content.email)")
                         navigateToLogin = true   // redirection après inscription réussie
                     }
@@ -49,8 +54,58 @@ struct SignUpController: View {
         .navigationDestination(isPresented: $navigateToLogin) {
             LoginController()
         }
-
     }
+    // MARK: - Requête d'inscription
+        func handleRegister() async {
+            guard let url = URL(string: "http://localhost:8080/api/users") else {
+                errorMessage = "URL invalide"
+                showError = true
+                return
+            }
+            
+            let body: [String: Any] = [
+                "name": content.name,
+                "email": content.email,
+                "password": content.pwd,
+                "rol": "user"
+            ]
+            
+            guard let jsonData = try? JSONSerialization.data(withJSONObject: body) else {
+                errorMessage = "Erreur de sérialisation JSON"
+                showError = true
+                return
+            }
+            
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.httpBody = jsonData
+            
+            do {
+                let (data, response) = try await URLSession.shared.data(for: request)
+                
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    errorMessage = "Réponse invalide du serveur."
+                    showError = true
+                    return
+                }
+                
+                if httpResponse.statusCode == 201 {
+                    print("✅ Inscription réussie avec \(content.email)")
+                    navigateToLogin = true
+                } else {
+                    let serverMessage = String(data: data, encoding: .utf8) ?? "Erreur inconnue"
+                    errorMessage = "Erreur serveur (\(httpResponse.statusCode)) : \(serverMessage)"
+                    showError = true
+                }
+                
+            } catch {
+                errorMessage = "Impossible de se connecter au serveur : \(error.localizedDescription)"
+                showError = true
+            }
+        }
+    
+    
 }
 
 struct SignUpController_Previews: PreviewProvider {

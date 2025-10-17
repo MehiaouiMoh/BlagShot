@@ -10,11 +10,13 @@ struct LoginView: View {
     @Binding var content: LoginContent
     var onButtonTap: () -> Void
     var onRedirectTap: () -> Void
+    var skiplogin: () -> Void
+    
     
     var body: some View {
         ZStack {
-            
             VStack(spacing: 20) {
+                
                 // Titre
                 Text(content.grandTitre)
                     .font(.system(size: 40, weight: .bold))
@@ -54,7 +56,7 @@ struct LoginView: View {
                     VStack(alignment: .leading) {
                         Text(content.pwdLabel)
                             .font(.headline)
-                        SecureField("Enter your password...", text: $content.pwd)
+                        SecureField("Enter your password...", text: $content.password)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .overlay(
                                 RoundedRectangle(cornerRadius: 8)
@@ -89,6 +91,16 @@ struct LoginView: View {
                 .padding(.top, 10)
             }
             .padding(.top, 50)
+        }
+        // 🔹 Ajout du bouton Skip dans la barre de navigation
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: skiplogin) {
+                    Text(content.skip)
+                        .foregroundColor(.blue)
+                        .fontWeight(.semibold)
+                }
+            }
         }
     }
 }

@@ -13,7 +13,7 @@ struct BlagShotApp: App {
         WindowGroup {
             NavigationStack {
                 /*HomeController()*/
-                CategoriesController()
+                HomeController()
             }
         }
     }
