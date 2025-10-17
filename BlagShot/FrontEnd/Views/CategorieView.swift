@@ -15,6 +15,9 @@ struct CategorieView: View {
     var onTapAdd: () -> Void
     var onTapFavories: () -> Void
     
+    @State private var navigateToJokeGenerator = false
+    @State private var selectedCategory: String? = nil
+    
     var body: some View {
         ZStack {
             VStack(spacing: 20 ){
@@ -72,28 +75,40 @@ struct CategorieView: View {
                     
                     // Catégories en quinconce (manuelles)
                     if content.categories.count > 0 {
-                        CategoryCircle(title: content.categories[0])
+                        CategoryCircle(title: content.categories[0], onTap: categoryTapped)
                             .offset(x: -100, y: -150)
                     }
                     if content.categories.count > 1 {
-                        CategoryCircle(title: content.categories[1])
+                        CategoryCircle(title: content.categories[1], onTap: categoryTapped)
                             .offset(x: 30, y: -110)
                     }
                     if content.categories.count > 2 {
-                        CategoryCircle(title: content.categories[2])
+                        CategoryCircle(title: content.categories[2], onTap: categoryTapped)
                             .offset(x: -90, y: 0)
                     }
                     if content.categories.count > 3 {
-                        CategoryCircle(title: content.categories[3])
+                        CategoryCircle(title: content.categories[3], onTap: categoryTapped)
                             .offset(x: -20, y: 150)
                     }
                     if content.categories.count > 4 {
-                        CategoryCircle(title: content.categories[4])
+                        CategoryCircle(title: content.categories[4],onTap: categoryTapped)
                             .offset(x: 100, y: 220)
                     }
                 }
                 .frame(height: 400)
                 
+                Spacer()
+                
+                // Bouton pour blague aléatoire
+                Button(action: {
+                    selectedCategory = nil
+                    navigateToJokeGenerator = true
+                }) {
+                    Text("Générer une blague aléatoire ?")
+                        .foregroundColor(.blue)
+                        .underline()
+                }
+                .padding()
                 Spacer()
                 
                 // BARRE DU BAS AVEC BOUTONS
@@ -134,6 +149,13 @@ struct CategorieView: View {
             }
             .padding()
         }
+        .navigationDestination(isPresented: $navigateToJokeGenerator) {
+            JokeGenerationView(selectedCategory: selectedCategory)
+        }
+    }
+    private func categoryTapped(_ category: String) {
+        selectedCategory = category
+        navigateToJokeGenerator = true
     }
 }
 
@@ -141,15 +163,16 @@ struct CategorieView: View {
 /// UNE CATÉGORIE EN CERCLE
 struct CategoryCircle: View {
     let title: String
+    let onTap: (String) -> Void
     
     var body: some View {
-        NavigationLink(destination: JokeGenerationView(category: title)) { // ← destination de ton API
+        Button(action: { onTap(title) }) {  // <- ici
             VStack {
                 Circle()
                     .fill(Color.orange)
                     .frame(width: 90, height: 90)
                     .overlay(
-                        Image(systemName: "face.smiling") // Icône par défaut
+                        Image(systemName: "face.smiling")
                             .resizable()
                             .scaledToFit()
                             .foregroundColor(.white)
@@ -161,7 +184,7 @@ struct CategoryCircle: View {
                     .foregroundColor(.black)
             }
         }
-        .buttonStyle(PlainButtonStyle()) // Pour enlever le style de bouton par défaut
+        .buttonStyle(PlainButtonStyle()) // pour supprimer le style par défaut
     }
 }
 
